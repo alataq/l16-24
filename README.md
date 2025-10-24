@@ -25,7 +25,7 @@ Make sure you have [Bun](https://bun.sh/) installed on your machine.
 To start the development server and view the emulator in your browser, run:
 
 ```sh
-bun run dev
+bun start
 ```
 
 ## 📂 Project Structure
