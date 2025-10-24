@@ -105,3 +105,4 @@ Configure a web preview for your application. The `$PORT` variable is dynamicall
 - Explain the benefits of using `dev.nix` for reproducibility and dependency management.
 - If a request is ambiguous, ask for clarification on the desired tools, libraries, and versions to be included in the environment.
 - When suggesting changes to `dev.nix`, explain the impact of the changes on the development environment and remind the user to reload the environment.
+- Do not do anything unless you have the explicit instruction.
