@@ -14,7 +14,7 @@ Make sure you have [Bun](https://bun.sh/) installed on your machine.
     ```
 2.  Navigate to the project directory:
     ```sh
-    cd logic-16-24
+    cd l-16-24
     ```
 3.  Install dependencies:
     ```sh
