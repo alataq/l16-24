@@ -1,0 +1,88 @@
+/* Container for all emulator sections */
+.emulator-container {
+    display: flex;
+    flex-direction: row; /* Arrange sections side-by-side */
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    gap: 2rem; /* Space between sections */
+    justify-content: center; /* Center the sections */
+    width: 100%;
+}
+
+/* Common style for each section (card-like appearance) */
+.emulator-section {
+    background-color: #1e1e1e; /* Slightly lighter than the body background */
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem; /* Space between elements inside a section */
+    flex: 1 1 300px; /* Flex properties for responsive layout */
+    min-width: 280px;
+}
+
+.emulator-section h2 {
+    margin-top: 0;
+    border-bottom: 1px solid #333;
+    padding-bottom: 0.5rem;
+    font-size: 1.25rem;
+}
+
+/* Specific styles for the I/O section */
+#io {
+    flex-basis: 100%; /* Make I/O section take full width if needed */
+}
+
+/* Style for each I/O component (ROM, Disk, Floppy) */
+.io-device {
+    background-color: #2a2a2a;
+    border: 1px solid #444;
+    border-radius: 6px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.io-device h3 {
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+.io-device p {
+    margin: 0;
+    color: #a0a0a0;
+}
+
+/* General button styles for all buttons */
+.btn,
+.emu_ctl_btn {
+    background-color: #333;
+    border: 1px solid #555;
+    color: #e0e0e0;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 5px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.btn:hover,
+.emu_ctl_btn:hover {
+    background-color: #444;
+    border-color: #777;
+}
+
+/* Information Section specific styles */
+#info p {
+    margin: 0;
+}
+
+#info span {
+    font-weight: bold;
+    color: #fff;
+}

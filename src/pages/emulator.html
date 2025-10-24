@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>l16-24 Emulator</title>
+    <link rel="stylesheet" href="../styles/theme.css">
     <link rel="stylesheet" href="../styles/emulator.css">
 </head>
 <body>
@@ -11,10 +12,49 @@
         <h2>Logic 16-2</h2>
     </header>
     <main>
-
+        <h1>l16-24 Emulator</h1>
+        <div class="emulator-container">
+            <section id="controller" class="emulator-section">
+                <h2>Emulation Controller</h2>
+                <button id="run-cycle-btn" class="emu_ctl_btn">
+                    Run one cycle
+                </button>
+                <button id="run-program-btn" class="emu_ctl_btn">
+                    Run program
+                </button>
+                <button id="stop-program-btn" class="emu_ctl_btn">
+                    Stop program
+                </button>
+            </section>
+            <section id="info" class="emulator-section">
+                <h2>Emulation Information</h2>
+                <p>Cycle count: <span id="cycle_count">0</span></p>
+                <p>Program counter: <span id="pc">0</span></p>
+                <p>Program duration: <span id="duration">0ms</span></p>
+                <p>Connected I/O: <span id="io_count">0</span></p>
+            </section>
+            <section id="io" class="emulator-section">
+                <h2>I/O Devices</h2>
+                <div id="rom-control" class="io-device">
+                    <h3>ROM</h3>
+                    <p>Contains the boot system.</p>
+                    <button id="load-rom-btn" class="btn">Load ROM</button>
+                </div>
+                <div id="disk-drive" class="io-device">
+                    <h3>Disk Drive</h3>
+                    <p>Status: <span id="disk_status">Idle</span></p>
+                    <button id="load-disk-btn" class="btn">Load Disk Image</button>
+                </div>
+                <div id="floppy-drive" class="io-device">
+                    <h3>Floppy Drive</h3>
+                    <p>Status: <span id="floppy_status">Idle</span></p>
+                    <button id="load-floppy-btn" class="btn">Load Floppy Image</button>
+                </div>
+            </section>
+        </div>
     </main>
     <footer>
-        <p>&copy; Logic 16-24 Limited - All right reserved.</p>
+        <p>&copy; Logic 16-24 Limited - All rights reserved.</p>
     </footer>
     <script type="module" src="../emulator/index.ts"></script>
 </body>
