@@ -18,3 +18,22 @@ cpuClockValue.textContent = cpuClockSlider.value;
 cpuClockSlider.addEventListener('input', () => {
     cpuClockValue.textContent = cpuClockSlider.value;
 });
+
+// Fullscreen
+const screenContainer = document.getElementById('screen-container') as HTMLDivElement;
+const emulatorScreen = document.getElementById('emulator-screen') as HTMLCanvasElement;
+
+
+emulatorScreen.addEventListener('click', () => {
+    if (document.fullscreenElement) {
+        document.exitFullscreen();
+    } else {
+        screenContainer.requestFullscreen();
+    }
+});
+
+document.addEventListener('fullscreenchange', () => {
+    if (!document.fullscreenElement) {
+        // Any additional cleanup when exiting fullscreen can go here
+    }
+});
