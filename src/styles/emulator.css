@@ -28,9 +28,19 @@
     font-size: 1.25rem;
 }
 
-/* Specific styles for the I/O section */
-#io {
-    flex-basis: 100%; /* Make I/O section take full width if needed */
+/* Full-width sections */
+#io,
+#screen-container {
+    flex-basis: 100%;
+}
+
+#emulator-screen {
+    width: 100%;
+    height: auto; /* Maintain aspect ratio */
+    display: block;
+    background-color: #000;
+    border-radius: 6px; /* A slight radius for the canvas itself */
+    cursor: pointer;
 }
 
 /* Style for each I/O component (ROM, Disk, Floppy) */
