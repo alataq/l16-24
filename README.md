@@ -50,7 +50,3 @@ To ensure the maintainability of the project, we ask all contributors to adhere 
 
 -   **Descriptive Naming:** Function and variable names should clearly indicate their purpose. For example, a function that gets a random entry from an array should be named `getRandomArrayEntry()`.
 -   **Clarity and Simplicity:** Write code that is easy to follow. Add comments where necessary to explain complex logic.
-
----
-
-<p align="center">&copy; 2024 Logic 16-24 Limited - All rights reserved.</p>
