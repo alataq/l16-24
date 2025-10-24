@@ -55,6 +55,17 @@
                 <h2>Emulator Screen</h2>
                 <canvas id="emulator-screen" width="640" height="480"></canvas>
             </section>
+            <section id="settings" class="emulator-section">
+                <h2>Emulation Settings</h2>
+                <div class="setting">
+                    <label for="ram-slider">RAM Size: <span id="ram-value">8</span>MB</label>
+                    <input type="range" id="ram-slider" min="4" max="16" step="4" value="8">
+                </div>
+                <div class="setting">
+                    <label for="cpu-clock-slider">CPU Clock: <span id="cpu-clock-value">12</span>MHz</label>
+                    <input type="range" id="cpu-clock-slider" min="4" max="24" step="1" value="12">
+                </div>
+            </section>
         </div>
     </main>
     <footer>
