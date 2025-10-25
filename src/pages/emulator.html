@@ -66,6 +66,100 @@
                     <input type="range" id="cpu-clock-slider" min="4" max="24" step="1" value="12">
                 </div>
             </section>
+            <section id="registers" class="emulator-section">
+                <h2>CPU Registers</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Register</th>
+                            <th>Binary</th>
+                            <th>Hex</th>
+                            <th>Decimal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- r0 to r7 -->
+                        <tr>
+                            <td>r0</td>
+                            <td><span id="reg-r0-bin">0</span></td>
+                            <td><span id="reg-r0-hex">0</span></td>
+                            <td><span id="reg-r0-dec">0</span></td>
+                        </tr>
+                        <tr>
+                            <td>r1</td>
+                            <td><span id="reg-r1-bin">0</span></td>
+                            <td><span id="reg-r1-hex">0</span></td>
+                            <td><span id="reg-r1-dec">0</span></td>
+                        </tr>
+                        <tr>
+                            <td>r2</td>
+                            <td><span id="reg-r2-bin">0</span></td>
+                            <td><span id="reg-r2-hex">0</span></td>
+                            <td><span id="reg-r2-dec">0</span></td>
+                        </tr>
+                        <tr>
+                            <td>r3</td>
+                            <td><span id="reg-r3-bin">0</span></td>
+                            <td><span id="reg-r3-hex">0</span></td>
+                            <td><span id="reg-r3-dec">0</span></td>
+                        </tr>
+                        <tr>
+                            <td>r4</td>
+                            <td><span id="reg-r4-bin">0</span></td>
+                            <td><span id="reg-r4-hex">0</span></td>
+                            <td><span id="reg-r4-dec">0</span></td>
+                        </tr>
+                        <tr>
+                            <td>r5</td>
+                            <td><span id="reg-r5-bin">0</span></td>
+                            <td><span id="reg-r5-hex">0</span></td>
+                            <td><span id="reg-r5-dec">0</span></td>
+                        </tr>
+                        <tr>
+                            <td>r6</td>
+                            <td><span id="reg-r6-bin">0</span></td>
+                            <td><span id="reg-r6-hex">0</span></td>
+                            <td><span id="reg-r6-dec">0</span></td>
+                        </tr>
+                        <tr>
+                            <td>r7</td>
+                            <td><span id="reg-r7-bin">0</span></td>
+                            <td><span id="reg-r7-hex">0</span></td>
+                            <td><span id="reg-r7-dec">0</span></td>
+                        </tr>
+                        <!-- CP and SP -->
+                        <tr>
+                            <td>cp</td>
+                            <td><span id="reg-cp-bin">0</span></td>
+                            <td><span id="reg-cp-hex">0</span></td>
+                            <td><span id="reg-cp-dec">0</span></td>
+                        </tr>
+                        <tr>
+                            <td>sp</td>
+                            <td><span id="reg-sp-bin">0</span></td>
+                            <td><span id="reg-sp-hex">0</span></td>
+                            <td><span id="reg-sp-dec">0</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+            <section id="cpu-flags" class="emulator-section">
+                <h2>CPU Flags</h2>
+                <ul>
+                    <li>
+                        <span class="flag-name">Zero (Z)</span>
+                        <span id="flag-z" class="flag-value">0</span>
+                    </li>
+                    <li>
+                        <span class="flag-name">Carry (C)</span>
+                        <span id="flag-c" class="flag-value">0</span>
+                    </li>
+                    <li>
+                        <span class="flag-name">Negative (N)</span>
+                        <span id="flag-n" class="flag-value">0</span>
+                    </li>
+                </ul>
+            </section>
         </div>
     </main>
     <footer>

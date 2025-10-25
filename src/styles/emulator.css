@@ -176,3 +176,66 @@ input[type="range"]::-moz-range-thumb:hover {
     object-fit: contain;
     border-radius: 0; /* Remove border radius in fullscreen */
 }
+
+/* --- Register Styles --- */
+#registers table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    font-size: 0.9rem;
+}
+
+#registers th,
+#registers td {
+    border: 1px solid #333;
+    padding: 6px 10px;
+    text-align: left;
+}
+
+#registers th {
+    background-color: #2a2a2a;
+    font-weight: 600;
+}
+
+#registers td:first-child {
+    font-weight: bold;
+    color: #c0c0c0;
+    text-align: center;
+}
+
+#registers span {
+    color: #fff;
+}
+
+/* --- CPU Flags Styles --- */
+#cpu-flags ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem; /* Add a larger gap between flags */
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+}
+
+#cpu-flags li {
+    display: flex;
+    justify-content: space-between;
+    background-color: #2a2a2a;
+    padding: 1rem; /* Increase padding to make flags bigger */
+    border-radius: 4px;
+}
+
+#cpu-flags .flag-name {
+    font-weight: bold;
+    color: #c0c0c0;
+}
+
+#cpu-flags .flag-value {
+    font-weight: bold;
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 4px;
+    min-width: 20px;
+    text-align: center;
+}
