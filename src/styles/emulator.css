@@ -31,7 +31,8 @@
 /* Full-width sections */
 #io,
 #screen-container,
-#settings {
+#settings,
+#memory-view {
     flex-basis: 100%;
 }
 
@@ -238,4 +239,74 @@ input[type="range"]::-moz-range-thumb:hover {
     border-radius: 4px;
     min-width: 20px;
     text-align: center;
+}
+
+/* --- Memory View Styles --- */
+#memory-view {
+    flex-basis: 100%;
+}
+
+.memory-controls {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.memory-controls label {
+    font-size: 1.1rem;
+    color: #c0c0c0;
+}
+
+#mem-address {
+    padding: 8px;
+    background-color: #2a2a2a;
+    border: 1px solid #444;
+    color: #e0e0e0;
+    border-radius: 4px;
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+}
+
+#goto-mem-btn {
+    padding: 8px 16px;
+}
+
+.hex-view {
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    font-size: 0.9rem;
+    overflow-x: auto;
+    background-color: #181818;
+    padding: 1rem;
+    border-radius: 6px;
+}
+
+.hex-view table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.hex-view th,
+.hex-view td {
+    padding: 4px 8px;
+    text-align: left;
+}
+
+.hex-view th {
+    background-color: #2a2a2a;
+    font-weight: 600;
+}
+
+.hex-view td {
+    border-bottom: 1px solid #333;
+}
+
+
+.memory-pagination {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.pagination-btn {
+    padding: 8px 16px;
 }
