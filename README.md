@@ -75,3 +75,45 @@ The CPU includes the following flags to track the status of operations:
 -   `zero` (Z): Set if the result of an operation is zero.
 -   `carry` (C): Set if an operation produces a carry.
 -   `negative` (N): Set if the result of an operation is negative.
+
+### Operation Codes
+Some operations will have sub operations.
+- NOP (0) - No Operation.
+- REG (1) - Registers operations.
+    - LDI (0) - Load immediate, uses two words.
+    - MOV (1) - Move, move one register content into another.
+- MEM (2) - Memory operations.
+    - STR (0) - Store, put data into memory.
+    - LOD (1) - Load, get data from memory.
+- MATH (3) - Mathematique operations.
+    - ADD (0) - Add two registers.
+    - SUB (1) - Subtract
+    - MUL (2) - Multiply
+    - DIV (3) - Divide
+    - MOD (4) - Modulo
+    - INC (5) - Increment
+    - DEC (6) - Decrement
+- LGC (4) - Logical operations.
+    - AND (0) - And
+    - OR (1) - Or
+    - XOR (2) - Xor
+    - NOT (3) - Not
+    - SHL (4) - Shift left
+    - SHR (5) - Shift right
+    - CMP (6) - Compare
+- FLW (5) - Flow operations.
+    - JMP (0) - Jump to address.
+    - JEQ (1) - Jump if equal.
+    - JPF (2) - Jump if flag.
+    - CAL (3) - Call.
+    - CEQ (4) - Call if equal.
+    - CLF (5) - Call if flag.
+    - RET (6) - Return.
+    - INT (7) - Interrupt.
+- SYS (6) - System operations.
+    - HLT (0) - Halt.
+    - RST (1) - Reset.
+- BIT (7) - Bit operations.
+    - ROL (0) - Rotate left.
+    - ROR (1) - Rotate right.
+    - SWP (2) - Swap
