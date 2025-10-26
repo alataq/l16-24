@@ -1,6 +1,28 @@
 type registerValue = number;
 type flagValue = 0 | 1;
 
+export enum RegisterName {
+    R0,
+    R1,
+    R2,
+    R3,
+    R4,
+    R5,
+    R6,
+    R7,
+    CP,
+    SP,
+}
+
+export enum FlagName {
+    ZERO,
+    CARRY,
+    NEGATIVE,
+}
+
+export const REGISTERS: string[] = Object.keys(RegisterName).filter(k => typeof RegisterName[k as any] === 'number');
+export const FLAGS: string[] = Object.keys(FlagName).filter(k => typeof FlagName[k as any] === 'number');
+
 export class Register {
     private value: registerValue = 0;
 
@@ -41,30 +63,30 @@ export class Flag {
 }
 
 export class CPU {
-    public registers: { [key: string]: Register };
-    public flags: { [key: string]: Flag };
+    public registers: { [key: number]: Register };
+    public flags: { [key: number]: Flag };
 
     constructor() {
         this.registers = {};
         this.flags = {};
 
         // General-purpose registers
-        this.registers["r0"] = new Register();
-        this.registers["r1"] = new Register();
-        this.registers["r2"] = new Register();
-        this.registers["r3"] = new Register();
-        this.registers["r4"] = new Register();
-        this.registers["r5"] = new Register();
-        this.registers["r6"] = new Register();
-        this.registers["r7"] = new Register();
+        this.registers[RegisterName.R0] = new Register();
+        this.registers[RegisterName.R1] = new Register();
+        this.registers[RegisterName.R2] = new Register();
+        this.registers[RegisterName.R3] = new Register();
+        this.registers[RegisterName.R4] = new Register();
+        this.registers[RegisterName.R5] = new Register();
+        this.registers[RegisterName.R6] = new Register();
+        this.registers[RegisterName.R7] = new Register();
 
-        // Special-purpose registers - using standard, descriptive names
-        this.registers["cp"] = new Register(0, 2**24 -1); // Program Counter
-        this.registers["sp"] = new Register(0, 2**12 -1); // Stack Pointer
+        // Special-purpose registers
+        this.registers[RegisterName.CP] = new Register(0, 2**24 -1); // Program Counter
+        this.registers[RegisterName.SP] = new Register(0, 2**12 -1); // Stack Pointer
 
         // Flags
-        this.flags["zero"] = new Flag();     // Z
-        this.flags["carry"] = new Flag();    // C
-        this.flags["negative"] = new Flag(); // N
+        this.flags[FlagName.ZERO] = new Flag();     // Z
+        this.flags[FlagName.CARRY] = new Flag();    // C
+        this.flags[FlagName.NEGATIVE] = new Flag(); // N
     }
 }
