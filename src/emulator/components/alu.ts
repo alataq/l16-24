@@ -51,6 +51,27 @@ export class ALU {
                         break;
                     }
                 }
+                break;
+            }
+            // Memory Operations
+            case 2: {
+                const SUB_OPERATION_CODE = (OPERATION >> 9) & 0x7;
+                switch(SUB_OPERATION_CODE) {
+                    // STR
+                    case 0: {
+                        const SOURCE_REGISTER_CODE = (OPERATION >> 6) & 0x7;
+                        const HIGH_ADDRESS_REGISTER_CODE = (OPERATION >> 3) & 0x7;
+                        const LOW_ADDRESS_REGISTER_CODE = OPERATION & 0x7;
+
+                        const SOURCE_REGISTER = this.machine.cpu.registers[SOURCE_REGISTER_CODE] as Register;
+                        const HIGH_ADDRESS_REGISTER = this.machine.cpu.registers[HIGH_ADDRESS_REGISTER_CODE] as Register;
+                        const LOW_ADDRESS_REGISTER = this.machine.cpu.registers[LOW_ADDRESS_REGISTER_CODE] as Register;
+
+                        const ADDRESS = (HIGH_ADDRESS_REGISTER.read() << 8 | LOW_ADDRESS_REGISTER.read() >> 8);
+
+                        this.machine.memory.write16(ADDRESS, SOURCE_REGISTER.read());
+                    }
+                }
             }
         }
     }
