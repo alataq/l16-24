@@ -59,7 +59,7 @@ export class CPU {
         this.registers["r7"] = new Register();
 
         // Special-purpose registers - using standard, descriptive names
-        this.registers["cp"] = new Register(0, 2**16 -1); // Program Counter
+        this.registers["cp"] = new Register(0, 2**24 -1); // Program Counter
         this.registers["sp"] = new Register(0, 2**12 -1); // Stack Pointer
 
         // Flags
