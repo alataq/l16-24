@@ -16,20 +16,25 @@ export class ALU {
         const OPERATION_CODE = OPERATION >> 12;
 
         switch(OPERATION_CODE) {
+            // NOP
             case 0: {
                 cp.write(OPERATION_ADDRESS + 2);
                 break;
             }
+            // Registers Operations
             case 1: {
                 const SUB_OPERATION_CODE = (OPERATION >> 9) & 0x7;
                 switch(SUB_OPERATION_CODE) {
-                    // STR
+                    // LDI
                     case 0: {
                         const TARGET_REGISTER_CODE = (OPERATION >> 6) & 0x7;
                         const SECOND_WORD = this.machine.memory.read16(OPERATION_ADDRESS + 2);
                         const TARGET_REGISTER = this.machine.cpu.registers[TARGET_REGISTER_CODE] as Register;
-                        
+
                         TARGET_REGISTER.write(SECOND_WORD);
+
+                        cp.write(OPERATION_ADDRESS + 4);
+                        break;
                     }
                 }
             }
