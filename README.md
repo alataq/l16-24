@@ -1,3 +1,4 @@
+
 # Logic 16-24
 Welcome to Logic 16-24, a 16-bit computer architecture emulated on the web. This project is built with Bun and TypeScript, providing a modern and fast development environment for exploring low-level computing concepts.
 
@@ -50,3 +51,27 @@ To ensure the maintainability of the project, we ask all contributors to adhere 
 
 -   **Descriptive Naming:** Function and variable names should clearly indicate their purpose. For example, a function that gets a random entry from an array should be named `getRandomArrayEntry()`.
 -   **Clarity and Simplicity:** Write code that is easy to follow. Add comments where necessary to explain complex logic.
+
+## Architecture
+The machine is a 16 bit computer with a 24 bit address bus.
+
+### Memory
+-   **Size**: 4MB to 16MB, must be a power of two.
+-   **Address Bus**: 24-bit.
+-   **Data Bus**: 8-bit, with support for 16-bit read/write operations.
+
+### CPU Registers
+The CPU has a set of registers for storing data and state.
+
+#### General-Purpose Registers (16-bit)
+-   `r0`, `r1`, `r2`, `r3`, `r4`, `r5`, `r6`, `r7`
+
+#### Special-Purpose Registers
+-   `cp` (Program Counter): A 24-bit register that holds the address of the next instruction to be executed.
+-   `sp` (Stack Pointer): A 12-bit register.
+
+### Flags
+The CPU includes the following flags to track the status of operations:
+-   `zero` (Z): Set if the result of an operation is zero.
+-   `carry` (C): Set if an operation produces a carry.
+-   `negative` (N): Set if the result of an operation is negative.
