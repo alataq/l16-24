@@ -29,11 +29,25 @@ export class ALU {
                     case 0: {
                         const TARGET_REGISTER_CODE = (OPERATION >> 6) & 0x7;
                         const SECOND_WORD = this.machine.memory.read16(OPERATION_ADDRESS + 2);
+
                         const TARGET_REGISTER = this.machine.cpu.registers[TARGET_REGISTER_CODE] as Register;
 
                         TARGET_REGISTER.write(SECOND_WORD);
 
                         cp.write(OPERATION_ADDRESS + 4);
+                        break;
+                    }
+                    // MOV
+                    case 1: {
+                        const SOURCE_REGISTER_CODE = (OPERATION >> 6) & 0x7;
+                        const TARGET_REGISTER_CODE = (OPERATION >> 3) & 0x7;
+
+                        const SOURCE_REGISTER = this.machine.cpu.registers[SOURCE_REGISTER_CODE] as Register;
+                        const TARGET_REGISTER = this.machine.cpu.registers[TARGET_REGISTER_CODE] as Register;
+
+                        TARGET_REGISTER.write(SOURCE_REGISTER.read());
+
+                        cp.write(OPERATION_ADDRESS + 2);
                         break;
                     }
                 }
