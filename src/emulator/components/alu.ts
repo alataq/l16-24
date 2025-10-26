@@ -1,4 +1,4 @@
-import type { Register } from "./cpu";
+import { RegisterName, type Register } from "./cpu";
 import { type Machine } from "./machine";
 
 export class ALU {
@@ -9,7 +9,7 @@ export class ALU {
     }
     
     public step(){
-        let cp = this.machine.cpu.registers["cp"] as Register;
+        let cp = this.machine.cpu.registers[RegisterName.CP] as Register;
 
         const OPERATION_ADDRESS = cp.read();
         const OPERATION = this.machine.memory.read16(OPERATION_ADDRESS) as number;
@@ -22,10 +22,17 @@ export class ALU {
             }
             case 1: {
                 const SUB_OPERATION_CODE = (OPERATION >> 9) & 0x7;
-                
+                switch(SUB_OPERATION_CODE) {
+                    // STR
+                    case 0: {
+                        const TARGET_REGISTER_CODE = (OPERATION >> 6) & 0x7;
+                        const SECOND_WORD = this.machine.memory.read16(OPERATION_ADDRESS + 2);
+                        const TARGET_REGISTER = this.machine.cpu.registers[TARGET_REGISTER_CODE] as Register;
+                        
+                        TARGET_REGISTER.write(SECOND_WORD);
+                    }
+                }
             }
         }
-
-
     }
 }
