@@ -67,11 +67,121 @@ export class ALU {
                         const HIGH_ADDRESS_REGISTER = this.machine.cpu.registers[HIGH_ADDRESS_REGISTER_CODE] as Register;
                         const LOW_ADDRESS_REGISTER = this.machine.cpu.registers[LOW_ADDRESS_REGISTER_CODE] as Register;
 
-                        const ADDRESS = (HIGH_ADDRESS_REGISTER.read() << 8 | LOW_ADDRESS_REGISTER.read() >> 8);
+                        const ADDRESS = ((HIGH_ADDRESS_REGISTER.read() << 8) | ((LOW_ADDRESS_REGISTER.read() >> 8) & 0xFF)) & 0xFFFFFF;
 
                         this.machine.memory.write16(ADDRESS, SOURCE_REGISTER.read());
+
+                        cp.write(OPERATION_ADDRESS + 2);
+                        break;
+                    }
+                    // LOD
+                    case 1: {
+                        const TARGET_REGISTER_CODE = (OPERATION >> 6) & 0x7;
+                        const HIGH_ADDRESS_REGISTER_CODE = (OPERATION >> 3) & 0x7;
+                        const LOW_ADDRESS_REGISTER_CODE = OPERATION & 0x7;
+
+                        const TARGET_REGISTER = this.machine.cpu.registers[TARGET_REGISTER_CODE] as Register;
+                        const HIGH_ADDRESS_REGISTER = this.machine.cpu.registers[HIGH_ADDRESS_REGISTER_CODE] as Register;
+                        const LOW_ADDRESS_REGISTER = this.machine.cpu.registers[LOW_ADDRESS_REGISTER_CODE] as Register;
+
+                        const ADDRESS = ((HIGH_ADDRESS_REGISTER.read() << 8) | ((LOW_ADDRESS_REGISTER.read() >> 8) & 0xFF)) & 0xFFFFFF;
+
+                        TARGET_REGISTER.write(this.machine.memory.read16(ADDRESS));
+
+                        cp.write(OPERATION_ADDRESS + 2);
+                        break;
                     }
                 }
+                break;
+            }
+            // Mathematic operations
+            case 3: {
+                const SUB_OPERATION_CODE = (OPERATION >> 9) & 0x7;
+                switch(SUB_OPERATION_CODE){
+                    // ADD
+                    case 0: {
+                        const TARGET_REGISTER_CODE = (OPERATION >> 6) & 0x7;
+                        const SOURCE_REGISTER_CODE_ONE = (OPERATION >> 3) & 0x7;
+                        const SOURCE_REGISTER_CODE_TWO = OPERATION & 0x7;
+
+                        const TARGET_REGISTER = this.machine.cpu.registers[TARGET_REGISTER_CODE] as Register;
+                        const SOURCE_REGISTER_ONE = this.machine.cpu.registers[SOURCE_REGISTER_CODE_ONE] as Register;
+                        const SOURCE_REGISTER_TWO = this.machine.cpu.registers[SOURCE_REGISTER_CODE_TWO] as Register;
+
+                        TARGET_REGISTER.write(SOURCE_REGISTER_ONE.read() + SOURCE_REGISTER_TWO.read());
+
+                        cp.write(OPERATION_ADDRESS + 2);
+                        break;
+                    }
+                    // SUB
+                    case 1: {
+                        const TARGET_REGISTER_CODE = (OPERATION >> 6) & 0x7;
+                        const SOURCE_REGISTER_CODE_ONE = (OPERATION >> 3) & 0x7;
+                        const SOURCE_REGISTER_CODE_TWO = OPERATION & 0x7;
+
+                        const TARGET_REGISTER = this.machine.cpu.registers[TARGET_REGISTER_CODE] as Register;
+                        const SOURCE_REGISTER_ONE = this.machine.cpu.registers[SOURCE_REGISTER_CODE_ONE] as Register;
+                        const SOURCE_REGISTER_TWO = this.machine.cpu.registers[SOURCE_REGISTER_CODE_TWO] as Register;
+
+                        TARGET_REGISTER.write(SOURCE_REGISTER_ONE.read() - SOURCE_REGISTER_TWO.read());
+
+                        cp.write(OPERATION_ADDRESS + 2);
+                        break;
+                    }
+                    // MUL
+                    case 2: {
+                        const TARGET_REGISTER_CODE = (OPERATION >> 6) & 0x7;
+                        const SOURCE_REGISTER_CODE_ONE = (OPERATION >> 3) & 0x7;
+                        const SOURCE_REGISTER_CODE_TWO = OPERATION & 0x7;
+
+                        const TARGET_REGISTER = this.machine.cpu.registers[TARGET_REGISTER_CODE] as Register;
+                        const SOURCE_REGISTER_ONE = this.machine.cpu.registers[SOURCE_REGISTER_CODE_ONE] as Register;
+                        const SOURCE_REGISTER_TWO = this.machine.cpu.registers[SOURCE_REGISTER_CODE_TWO] as Register;
+
+                        TARGET_REGISTER.write(SOURCE_REGISTER_ONE.read() * SOURCE_REGISTER_TWO.read());
+
+                        cp.write(OPERATION_ADDRESS + 2);
+                        break;
+                    }
+                    // DIV
+                    case 3: {
+                        const TARGET_REGISTER_CODE = (OPERATION >> 6) & 0x7;
+                        const SOURCE_REGISTER_CODE_ONE = (OPERATION >> 3) & 0x7;
+                        const SOURCE_REGISTER_CODE_TWO = OPERATION & 0x7;
+
+                        const TARGET_REGISTER = this.machine.cpu.registers[TARGET_REGISTER_CODE] as Register;
+                        const SOURCE_REGISTER_ONE = this.machine.cpu.registers[SOURCE_REGISTER_CODE_ONE] as Register;
+                        const SOURCE_REGISTER_TWO = this.machine.cpu.registers[SOURCE_REGISTER_CODE_TWO] as Register;
+
+                        TARGET_REGISTER.write(SOURCE_REGISTER_ONE.read() / SOURCE_REGISTER_TWO.read());
+
+                        cp.write(OPERATION_ADDRESS + 2);
+                        break;
+                    }
+                    // INC
+                    case 4: {
+                        const TARGET_REGISTER_CODE = (OPERATION >> 6) & 0x7;
+
+                        const TARGET_REGISTER = this.machine.cpu.registers[TARGET_REGISTER_CODE] as Register;
+
+                        TARGET_REGISTER.write(TARGET_REGISTER.read() + 1);
+
+                        cp.write(OPERATION_ADDRESS + 2);
+                        break;
+                    }
+                    // DEC
+                    case 5: {
+                        const TARGET_REGISTER_CODE = (OPERATION >> 6) & 0x7;
+
+                        const TARGET_REGISTER = this.machine.cpu.registers[TARGET_REGISTER_CODE] as Register;
+
+                        TARGET_REGISTER.write(TARGET_REGISTER.read() - 1);
+
+                        cp.write(OPERATION_ADDRESS + 2);
+                        break;
+                    }
+                }
+                break;
             }
         }
     }
