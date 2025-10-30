@@ -1,4 +1,4 @@
-import { RegisterName, type Register } from "./cpu";
+import { Flag, FlagName, RegisterName, type Register } from "./cpu";
 import { type Machine } from "./machine";
 
 export class ALU {
@@ -10,6 +10,10 @@ export class ALU {
     
     public step(){
         let cp = this.machine.cpu.registers[RegisterName.CP] as Register;
+
+        let zf = this.machine.cpu.flags[FlagName.ZERO] as Flag;
+        let cf = this.machine.cpu.flags[FlagName.CARRY] as Flag;
+        let nf = this.machine.cpu.flags[FlagName.NEGATIVE] as Flag;
 
         const OPERATION_ADDRESS = cp.read();
         const OPERATION = this.machine.memory.read16(OPERATION_ADDRESS) as number;
@@ -108,7 +112,21 @@ export class ALU {
                         const SOURCE_REGISTER_ONE = this.machine.cpu.registers[SOURCE_REGISTER_CODE_ONE] as Register;
                         const SOURCE_REGISTER_TWO = this.machine.cpu.registers[SOURCE_REGISTER_CODE_TWO] as Register;
 
-                        TARGET_REGISTER.write(SOURCE_REGISTER_ONE.read() + SOURCE_REGISTER_TWO.read());
+                        const TOTAL = SOURCE_REGISTER_ONE.read() + SOURCE_REGISTER_TWO.read();
+
+                        if(TOTAL === 0){
+                            zf.write(1);
+                        } else {
+                            zf.write(0);
+                        }
+
+                        if(TOTAL >= 2**16){
+                            cf.write(1);
+                        } else {
+                            cf.write(0);
+                        }
+
+                        TARGET_REGISTER.write(TOTAL);
 
                         cp.write(OPERATION_ADDRESS + 2);
                         break;
@@ -123,7 +141,23 @@ export class ALU {
                         const SOURCE_REGISTER_ONE = this.machine.cpu.registers[SOURCE_REGISTER_CODE_ONE] as Register;
                         const SOURCE_REGISTER_TWO = this.machine.cpu.registers[SOURCE_REGISTER_CODE_TWO] as Register;
 
-                        TARGET_REGISTER.write(SOURCE_REGISTER_ONE.read() - SOURCE_REGISTER_TWO.read());
+                        const TOTAL = SOURCE_REGISTER_ONE.read() - SOURCE_REGISTER_TWO.read();
+
+                        if(TOTAL === 0){
+                            zf.write(1);
+                        } else {
+                            zf.write(0);
+                        }
+
+                        if(TOTAL < 0){
+                            nf.write(1);
+                        } else {
+                            nf.write(0);
+                        }
+
+                        cf.write(0);
+
+                        TARGET_REGISTER.write(TOTAL);
 
                         cp.write(OPERATION_ADDRESS + 2);
                         break;
@@ -138,7 +172,23 @@ export class ALU {
                         const SOURCE_REGISTER_ONE = this.machine.cpu.registers[SOURCE_REGISTER_CODE_ONE] as Register;
                         const SOURCE_REGISTER_TWO = this.machine.cpu.registers[SOURCE_REGISTER_CODE_TWO] as Register;
 
-                        TARGET_REGISTER.write(SOURCE_REGISTER_ONE.read() * SOURCE_REGISTER_TWO.read());
+                        const TOTAL = SOURCE_REGISTER_ONE.read() * SOURCE_REGISTER_TWO.read();
+
+                        if(TOTAL === 0){
+                            zf.write(1);
+                        } else {
+                            zf.write(0);
+                        }
+
+                        if(TOTAL >= 2**16){
+                            cf.write(1);
+                        } else {
+                            cf.write(0);
+                        }
+
+                        nf.write(0);
+
+                        TARGET_REGISTER.write(TOTAL);
 
                         cp.write(OPERATION_ADDRESS + 2);
                         break;
@@ -153,7 +203,31 @@ export class ALU {
                         const SOURCE_REGISTER_ONE = this.machine.cpu.registers[SOURCE_REGISTER_CODE_ONE] as Register;
                         const SOURCE_REGISTER_TWO = this.machine.cpu.registers[SOURCE_REGISTER_CODE_TWO] as Register;
 
-                        TARGET_REGISTER.write(SOURCE_REGISTER_ONE.read() / SOURCE_REGISTER_TWO.read());
+                        const DIVISOR = SOURCE_REGISTER_TWO.read();
+
+                        if (DIVISOR === 0) {
+                            zf.write(0);
+                            cf.write(1);
+                            nf.write(0);
+                        } else {
+                            const TOTAL = Math.floor(SOURCE_REGISTER_ONE.read() / DIVISOR);
+
+                            if(TOTAL === 0){
+                                zf.write(1);
+                            } else {
+                                zf.write(0);
+                            }
+
+                            if (SOURCE_REGISTER_ONE.read() % DIVISOR !== 0) {
+                                cf.write(1);
+                            } else {
+                                cf.write(0);
+                            }
+                            
+                            nf.write(0);
+
+                            TARGET_REGISTER.write(TOTAL);
+                        }
 
                         cp.write(OPERATION_ADDRESS + 2);
                         break;
@@ -164,7 +238,23 @@ export class ALU {
 
                         const TARGET_REGISTER = this.machine.cpu.registers[TARGET_REGISTER_CODE] as Register;
 
-                        TARGET_REGISTER.write(TARGET_REGISTER.read() + 1);
+                        const TOTAL = TARGET_REGISTER.read() + 1;
+
+                        if(TOTAL === 0){
+                            zf.write(1);
+                        } else {
+                            zf.write(0);
+                        }
+
+                        if(TOTAL >= 2**16){
+                            cf.write(1);
+                        } else {
+                            cf.write(0);
+                        }
+
+                        nf.write(0);
+
+                        TARGET_REGISTER.write(TOTAL);
 
                         cp.write(OPERATION_ADDRESS + 2);
                         break;
@@ -175,7 +265,23 @@ export class ALU {
 
                         const TARGET_REGISTER = this.machine.cpu.registers[TARGET_REGISTER_CODE] as Register;
 
-                        TARGET_REGISTER.write(TARGET_REGISTER.read() - 1);
+                        const TOTAL = TARGET_REGISTER.read() - 1;
+
+                        if(TOTAL === 0){
+                            zf.write(1);
+                        } else {
+                            zf.write(0);
+                        }
+
+                        if(TOTAL < 0){
+                            nf.write(1);
+                        } else {
+                            nf.write(0);
+                        }
+
+                        cf.write(0);
+
+                        TARGET_REGISTER.write(TOTAL);
 
                         cp.write(OPERATION_ADDRESS + 2);
                         break;
