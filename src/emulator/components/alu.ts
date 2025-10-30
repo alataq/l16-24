@@ -289,6 +289,200 @@ export class ALU {
                 }
                 break;
             }
+            // Logical Operations
+            case 4: {
+                const SUB_OPERATION_CODE = (OPERATION >> 9) & 0x7;
+                switch(SUB_OPERATION_CODE){
+                    // AND
+                    case 0: {
+                        const TARGET_REGISTER_CODE = (OPERATION >> 6) & 0x7;
+                        const SOURCE_REGISTER_CODE_ONE = (OPERATION >> 3) & 0x7;
+                        const SOURCE_REGISTER_CODE_TWO = OPERATION & 0x07;
+
+                        const TARGET_REGISTER = this.machine.cpu.registers[TARGET_REGISTER_CODE] as Register;
+                        const SOURCE_REGISTER_ONE = this.machine.cpu.registers[SOURCE_REGISTER_CODE_ONE] as Register;
+                        const SOURCE_REGISTER_TWO = this.machine.cpu.registers[SOURCE_REGISTER_CODE_TWO] as Register;
+
+                        const TOTAL = SOURCE_REGISTER_ONE.read() & SOURCE_REGISTER_TWO.read();
+
+                        if(TOTAL === 0){
+                            zf.write(1);
+                        } else {
+                            zf.write(0);
+                        }
+
+                        cf.write(0);
+                        nf.write(0);
+
+                        TARGET_REGISTER.write(TOTAL);
+
+                        cp.write(OPERATION_ADDRESS + 2);
+                        break;
+                    }
+                    // OR
+                    case 1: {
+                        const TARGET_REGISTER_CODE = (OPERATION >> 6) & 0x7;
+                        const SOURCE_REGISTER_CODE_ONE = (OPERATION >> 3) & 0x7;
+                        const SOURCE_REGISTER_CODE_TWO = OPERATION & 0x7;
+
+                        const TARGET_REGISTER = this.machine.cpu.registers[TARGET_REGISTER_CODE] as Register;
+                        const SOURCE_REGISTER_ONE = this.machine.cpu.registers[SOURCE_REGISTER_CODE_ONE] as Register;
+                        const SOURCE_REGISTER_TWO = this.machine.cpu.registers[SOURCE_REGISTER_CODE_TWO] as Register;
+
+                        const TOTAL = SOURCE_REGISTER_ONE.read() | SOURCE_REGISTER_TWO.read();
+
+                        if(TOTAL === 0){
+                            zf.write(1);
+                        } else {
+                            zf.write(0);
+                        }
+
+                        cf.write(0);
+                        nf.write(0);
+
+                        TARGET_REGISTER.write(TOTAL);
+
+                        cp.write(OPERATION_ADDRESS + 2);
+                        break;
+                    }
+                    // XOR
+                    case 2: {
+                        const TARGET_REGISTER_CODE = (OPERATION >> 6) & 0x7;
+                        const SOURCE_REGISTER_CODE_ONE = (OPERATION >> 3) & 0x7;
+                        const SOURCE_REGISTER_CODE_TWO = OPERATION & 0x7;
+
+                        const TARGET_REGISTER = this.machine.cpu.registers[TARGET_REGISTER_CODE] as Register;
+                        const SOURCE_REGISTER_ONE = this.machine.cpu.registers[SOURCE_REGISTER_CODE_ONE] as Register;
+                        const SOURCE_REGISTER_TWO = this.machine.cpu.registers[SOURCE_REGISTER_CODE_TWO] as Register;
+
+                        const TOTAL = SOURCE_REGISTER_ONE.read() ^ SOURCE_REGISTER_TWO.read();
+
+                        if(TOTAL === 0){
+                            zf.write(1);
+                        } else {
+                            zf.write(0);
+                        }
+
+                        cf.write(0);
+                        nf.write(0);
+
+                        TARGET_REGISTER.write(TOTAL);
+
+                        cp.write(OPERATION_ADDRESS + 2);
+                        break;
+                    }
+                    // NOT
+                    case 3: {
+                        const TARGET_REGISTER_CODE = (OPERATION >> 6) & 0x7;
+                        const SOURCE_REGISTER_CODE = (OPERATION >> 3) & 0x7;
+
+                        const TARGET_REGISTER = this.machine.cpu.registers[TARGET_REGISTER_CODE] as Register;
+                        const SOURCE_REGISTER = this.machine.cpu.registers[SOURCE_REGISTER_CODE] as Register;
+
+                        const TOTAL = ~SOURCE_REGISTER.read();
+
+                        if(TOTAL === 0){
+                            zf.write(1);
+                        } else {
+                            zf.write(0);
+                        }
+
+                        cf.write(0);
+                        nf.write(1);
+
+                        TARGET_REGISTER.write(TOTAL);
+
+                        cp.write(OPERATION_ADDRESS + 2);
+                        break;
+                    }
+                    // SHL
+                    case 4: {
+                        const TARGET_REGISTER_CODE = (OPERATION >> 6) & 0x7;
+                        const SOURCE_REGISTER_CODE = (OPERATION >> 3) & 0x7;
+
+                        const TARGET_REGISTER = this.machine.cpu.registers[TARGET_REGISTER_CODE] as Register;
+                        const SOURCE_REGISTER = this.machine.cpu.registers[SOURCE_REGISTER_CODE] as Register;
+
+                        const TOTAL = SOURCE_REGISTER.read() << 1;
+
+                        if(TOTAL === 0){
+                            zf.write(1);
+                        } else {
+                            zf.write(0);
+                        }
+
+                        if(TOTAL >= 2**16){
+                            cf.write(1);
+                        } else {
+                            cf.write(0);
+                        }
+
+                        nf.write(0);
+
+                        TARGET_REGISTER.write(TOTAL);
+
+                        cp.write(OPERATION_ADDRESS + 2);
+                        break;
+                    }
+                    // SHR
+                    case 5: {
+                        const TARGET_REGISTER_CODE = (OPERATION >> 6) & 0x7;
+                        const SOURCE_REGISTER_CODE = (OPERATION >> 3) & 0x7;
+
+                        const TARGET_REGISTER = this.machine.cpu.registers[TARGET_REGISTER_CODE] as Register;
+                        const SOURCE_REGISTER = this.machine.cpu.registers[SOURCE_REGISTER_CODE] as Register;
+
+                        const TOTAL = SOURCE_REGISTER.read() >> 1;
+
+                        if(TOTAL === 0){
+                            zf.write(1);
+                        } else {
+                            zf.write(0);
+                        }
+
+                        if(TOTAL < 0){
+                            nf.write(1);
+                        } else {
+                            nf.write(0);
+                        }
+
+                        cf.write(0);
+
+                        TARGET_REGISTER.write(TOTAL);
+
+                        cp.write(OPERATION_ADDRESS + 2);
+                        break;
+                    }
+                    // CMP
+                    case 6: {
+                        const SOURCE_REGISTER_CODE_ONE = (OPERATION >> 6) & 0x7;
+                        const SOURCE_REGISTER_CODE_TWO = (OPERATION >> 3) & 0x7;
+
+                        const SOURCE_REGISTER_ONE = this.machine.cpu.registers[SOURCE_REGISTER_CODE_ONE] as Register;
+                        const SOURCE_REGISTER_TWO = this.machine.cpu.registers[SOURCE_REGISTER_CODE_TWO] as Register;
+
+                        const TOTAL = SOURCE_REGISTER_ONE.read() - SOURCE_REGISTER_TWO.read();
+
+                        if(TOTAL === 0){
+                            zf.write(1);
+                        } else {
+                            zf.write(0);
+                        }
+
+                        if(TOTAL < 0){
+                            nf.write(1);
+                        } else {
+                            nf.write(0);
+                        }
+
+                        cf.write(0);
+
+                        cp.write(OPERATION_ADDRESS + 2);
+                        break;
+                    }
+                }
+                break;
+            }
         }
     }
 }
