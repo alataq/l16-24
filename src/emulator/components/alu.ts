@@ -483,6 +483,78 @@ export class ALU {
                 }
                 break;
             }
+            // Flow Operations
+            case 5: {
+                const SUB_OPERATION_CODE = (OPERATION >> 9) & 0x7;
+                switch(SUB_OPERATION_CODE){
+                    // JMP
+                    case 0: {
+                        const SECOND_WORD = this.machine.memory.read16(OPERATION_ADDRESS + 2);
+                        const THIRD_WORD = this.machine.memory.read16(OPERATION_ADDRESS + 4);
+
+                        // 16 bits of second word, 8 bits of third word
+                        const ADDRESS = ((SECOND_WORD << 8) | ((THIRD_WORD >> 8) & 0xFF))
+
+                        cp.write(ADDRESS);
+                        break;
+                    }
+                    // JEQ
+                    case 1: {
+                        const SOURCE_REGISTER_CODE_ONE = (OPERATION >> 6) & 0x7;
+                        const SOURCE_REGISTER_CODE_TWO = (OPERATION >> 3) & 0x7;
+
+                        const SOURCE_REGISTER_ONE = this.machine.cpu.registers[SOURCE_REGISTER_CODE_ONE] as Register;
+                        const SOURCE_REGISTER_TWO = this.machine.cpu.registers[SOURCE_REGISTER_CODE_TWO] as Register;
+
+                        const IS_EQUAL = SOURCE_REGISTER_ONE.read() === SOURCE_REGISTER_TWO.read();
+
+                        if(!IS_EQUAL){
+                            cp.write(OPERATION_ADDRESS + 6);
+                            break;
+                        }
+
+                        const SECOND_WORD = this.machine.memory.read16(OPERATION_ADDRESS + 2);
+                        const THIRD_WORD = this.machine.memory.read16(OPERATION_ADDRESS + 4);
+
+                        const ADDRESS = ((SECOND_WORD << 8) | ((THIRD_WORD >> 8) & 0xFF))
+
+                        cp.write(ADDRESS);
+                        break;
+                    }
+                    // JPF
+                    case 2: {
+                        const FLAGS = (OPERATION >> 6) & 0x7;
+
+                        const ZERO_FLAG = FLAGS & 0b100;
+                        const CARRY_FLAG = FLAGS & 0b010;
+                        const NEGATIVE_FLAG = FLAGS & 0b001;
+
+                        if(ZERO_FLAG && !zf.read()){
+                            cp.write(OPERATION_ADDRESS + 6);
+                            break;
+                        }
+
+                        if(CARRY_FLAG && !cf.read()){
+                            cp.write(OPERATION_ADDRESS + 6);
+                            break;
+                        }
+
+                        if(NEGATIVE_FLAG && !nf.read()){
+                            cp.write(OPERATION_ADDRESS + 6);
+                            break;
+                        }
+
+                        const SECOND_WORD = this.machine.memory.read16(OPERATION_ADDRESS + 2);
+                        const THIRD_WORD = this.machine.memory.read16(OPERATION_ADDRESS + 4);
+
+                        const ADDRESS = ((SECOND_WORD << 8) | ((THIRD_WORD >> 8) & 0xFF))
+
+                        cp.write(ADDRESS);
+                        break;
+                    }
+                }
+                break;
+            }
         }
     }
 }
