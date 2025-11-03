@@ -113,7 +113,3 @@ Some operations will have sub operations.
 - SYS (6) - System operations.
     - HLT (0) - Halt.
     - RST (1) - Reset.
-- BIT (7) - Bit operations.
-    - ROL (0) - Rotate left.
-    - ROR (1) - Rotate right.
-    - SWP (2) - Swap
