@@ -640,6 +640,23 @@ export class ALU {
                 }
                 break;
             }
+            // System Operations
+            case 6: {
+                const SUB_OPERATION_CODE = (OPERATION >> 9) & 0x7;
+                switch(SUB_OPERATION_CODE){
+                    // Halt
+                    case 0: {
+                        this.machine.isRunning = false;
+                        cp.write(0);
+                        break;
+                    }
+                    // Reset
+                    case 1: {
+                        cp.write(0);
+                        break;
+                    }
+                }
+            }
         }
     }
 }

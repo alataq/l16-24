@@ -8,6 +8,7 @@ export class Machine {
     public cpu: CPU;
     public alu: ALU;
     public stack: Stack;
+    public isRunning: boolean = true;
 
     constructor(memorySize: number){
         this.memory = new Memory(memorySize);
