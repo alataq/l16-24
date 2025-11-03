@@ -109,7 +109,7 @@ Some operations will have sub operations.
     - CEQ (4) - Call if equal.
     - CLF (5) - Call if flag.
     - RET (6) - Return.
-    - INT (7) - Interrupt.
+    - INT (7) - Interrupt. (Not implemented yet)
 - SYS (6) - System operations.
     - HLT (0) - Halt.
     - RST (1) - Reset.
