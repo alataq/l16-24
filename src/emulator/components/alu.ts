@@ -10,6 +10,7 @@ export class ALU {
     
     public step(){
         let cp = this.machine.cpu.registers[RegisterName.CP] as Register;
+        let sp = this.machine.cpu.registers[RegisterName.SP] as Register;
 
         let zf = this.machine.cpu.flags[FlagName.ZERO] as Flag;
         let cf = this.machine.cpu.flags[FlagName.CARRY] as Flag;
@@ -550,6 +551,90 @@ export class ALU {
                         const ADDRESS = ((SECOND_WORD << 8) | ((THIRD_WORD >> 8) & 0xFF))
 
                         cp.write(ADDRESS);
+                        break;
+                    }
+                    // CAL
+                    case 3: {
+                        const SECOND_WORD = this.machine.memory.read16(OPERATION_ADDRESS + 2);
+                        const THIRD_WORD = this.machine.memory.read16(OPERATION_ADDRESS + 4);
+
+                        const ADDRESS = ((SECOND_WORD << 8) | ((THIRD_WORD >> 8) & 0xFF))
+
+                        sp.write(sp.read() + 1);
+                        this.machine.stack.push(cp.read());
+
+                        cp.write(ADDRESS);
+                        break;
+                    }
+                    // CEQ
+                    case 4: {
+                        const SOURCE_REGISTER_CODE_ONE = (OPERATION >> 6) & 0x7;
+                        const SOURCE_REGISTER_CODE_TWO = (OPERATION >> 3) & 0x7;
+
+                        const SOURCE_REGISTER_ONE = this.machine.cpu.registers[SOURCE_REGISTER_CODE_ONE] as Register;
+                        const SOURCE_REGISTER_TWO = this.machine.cpu.registers[SOURCE_REGISTER_CODE_TWO] as Register;
+
+                        const IS_EQUAL = SOURCE_REGISTER_ONE.read() === SOURCE_REGISTER_TWO.read();
+
+                        if(!IS_EQUAL){
+                            cp.write(OPERATION_ADDRESS + 6);
+                            break;
+                        }
+
+                        const SECOND_WORD = this.machine.memory.read16(OPERATION_ADDRESS + 2);
+                        const THIRD_WORD = this.machine.memory.read16(OPERATION_ADDRESS + 4);
+
+                        const ADDRESS = ((SECOND_WORD << 8) | ((THIRD_WORD >> 8) & 0xFF))
+
+                        sp.write(sp.read() + 1);
+                        this.machine.stack.push(cp.read());
+
+                        cp.write(ADDRESS);
+                        break;
+                    }
+                    // CLF
+                    case 5: {
+                        const FLAGS = (OPERATION >> 6) & 0x7;
+
+                        const ZERO_FLAG = FLAGS & 0b100;
+                        const CARRY_FLAG = FLAGS & 0b010;
+                        const NEGATIVE_FLAG = FLAGS & 0b001;
+
+                        if(ZERO_FLAG && !zf.read()){
+                            cp.write(OPERATION_ADDRESS + 6);
+                            break;
+                        }
+
+                        if(CARRY_FLAG && !cf.read()){
+                            cp.write(OPERATION_ADDRESS + 6);
+                            break;
+                        }
+
+                        if(NEGATIVE_FLAG && !nf.read()){
+                            cp.write(OPERATION_ADDRESS + 6);
+                            break;
+                        }
+
+                        const SECOND_WORD = this.machine.memory.read16(OPERATION_ADDRESS + 2);
+                        const THIRD_WORD = this.machine.memory.read16(OPERATION_ADDRESS + 4);
+
+                        const ADDRESS = ((SECOND_WORD << 8) | ((THIRD_WORD >> 8) & 0xFF));
+
+                        sp.write(sp.read() + 1);
+                        this.machine.stack.push(cp.read());
+
+                        cp.write(ADDRESS);
+                        break;
+                    }
+                    // RET
+                    case 6: {
+                        cp.write(this.machine.stack.pop() + 2);
+                        break;
+                    }
+                    // INT
+                    case 7: {
+                        // TO IMPLEMENT LATER
+                        cp.write(OPERATION_ADDRESS + 2);
                         break;
                     }
                 }
